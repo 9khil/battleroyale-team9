@@ -20,7 +20,7 @@ function shouldShoot(){
 
 function areWeInEnemyRange(body) {
   const me = body.you;
-  const enemy = body.enemies.pop();
+  const enemy = body.enemies[0];
   let wallsArray = [];
   if (enemy.x === me.x) {
     if (enemy.y < me.y && enemy.direction === 'bottom') {
@@ -66,7 +66,7 @@ function areWeInEnemyRange(body) {
 
 function inShootingSight(body){
   const me = body.you;
-  const enemy = body.enemies.pop();
+  const enemy = body.enemies[0];
   let wallsArray = [];
   if (enemy.x === me.x) {
     if (enemy.y > me.y && me.direction === 'bottom') {
@@ -120,7 +120,7 @@ function info(){
 
 function getCommand(body){
   me = body.you;
-  enemy = body.enemies.pop();
+  enemy = body.enemies[0];
   me.shotsPossible = me.strength / enemy.weaponDamage;
   enemy.shotsPossible = enemy.strength / me.weaponDamage;
   const walls = body.walls;
