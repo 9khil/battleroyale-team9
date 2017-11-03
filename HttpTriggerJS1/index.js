@@ -110,19 +110,6 @@ function inShootingSight(body){
   }
 };
 
-function doSomethingRandom(){
-  var commands = [
-    "rotate-right",
-    "rotate-left",
-    "advance",
-    "retreat",
-    "shoot"
-  ];
-  var rnd = Math.floor(Math.random() * 5);
-
-  return commands[rnd];
-}
-
 function info(){
   return {
     name: "Mr. Randombird",
@@ -130,20 +117,35 @@ function info(){
   }
 }
 
-function action (body){
-  return {
-    command: doSomethingRandom()
-  };
-}
-
 
 function getCommand(body){
-  console.log("Get Commmand!!");
   me = body.you;
   enemy = body.enemies.pop();
+  me.shotsPossible = me.strength / enemy.weaponDamage;
+  enemy.shotsPossible = enemy.strength / me.weaponDamage;
   const walls = body.walls;
 
   walls.map(addWall);
+
+  // can we see enemy?
+
+    // Can shoot enemy
+      // Should shoot?
+
+    // Can enemy shoot us?
+      // Can we beat enemy after movement?
+
+  // No enemy in sight
+
+    // Check eligble powerups
+
+    // else move in current direction if no walls
+
+  if (inShootingSight(body)) {
+    return 'shoot';
+  } else {
+    return 'advance';
+  }
 
 }
 
