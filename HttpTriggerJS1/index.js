@@ -1,4 +1,5 @@
 const walls = [];
+let me, enemy ;
 
 function addWall(wall){
   if (walls.find((item) => {
@@ -7,6 +8,15 @@ function addWall(wall){
    walls.push(wall);
   }
 }
+
+function shouldShoot(){
+  if ((me.strength / enemy.weaponDamage) < (enemy.strength / me.weaponDamage)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 
 function areWeInEnemyRange(body) {
   const me = body.you;
@@ -54,7 +64,7 @@ function areWeInEnemyRange(body) {
   }
 }
 
-function inShootingRange(body){
+function inShootingSight(body){
   const me = body.you;
   const enemy = body.enemies.pop();
   let wallsArray = [];
@@ -97,10 +107,7 @@ function inShootingRange(body){
         return false;
       }
     }
-
   }
-
-
 };
 
 function doSomethingRandom(){
@@ -132,8 +139,8 @@ function action (body){
 
 function getCommand(body){
 
-  const me = body.you;
-  const enemies = body.enemies;
+  me = body.you;
+  enemy = body.enemies.pop();
   const walls = body.walls;
 
   walls.map(addWall);
