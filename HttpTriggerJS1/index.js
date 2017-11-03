@@ -138,7 +138,7 @@ function action (body){
 
 
 function getCommand(body){
-
+  console.log("Get Commmand!!");
   me = body.you;
   enemy = body.enemies.pop();
   const walls = body.walls;
@@ -149,10 +149,19 @@ function getCommand(body){
 
 function getBody(req){
   if (req.query.path === "/command") {
+      if(typeof req.body == "object"){
+        return {
+          command: getCommand(req.body)
+        }
+      }else{
+        return{
+          command: getCommand(JSON.parse(req.body))
+        }
+      }
 
-    return  {
-      command: getCommand(JSON.parse(req.body))
-    };
+
+
+
 
   }
   if (req.query.path === "/info") {
@@ -168,4 +177,3 @@ module.exports = function (context, req) {
   };
   context.done();
 };
-
