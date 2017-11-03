@@ -65,10 +65,12 @@ function areWeInEnemyRange(body) {
 }
 
 function inShootingSight(body){
+  console.log("IsInShootingSight");
   const me = body.you;
   const enemy = body.enemies[0];
   let wallsArray = [];
   if (enemy.x === me.x) {
+    console.log("enemy X equals my X");
     if (enemy.y > me.y && me.direction === 'bottom') {
       wallsArray = walls.filter(wall => {
         return wall.x === me.x && wall.y > me.y && wall.y < enemy.y;
@@ -78,16 +80,25 @@ function inShootingSight(body){
         return wall.x === me.x && wall.y < me.y && wall.y > enemy.y;
       });
     }
+
     if (wallsArray.length){
       return false;
     } else {
+      console.log("no walls in between");
       if (enemy.y - me.y < me.weaponRange) {
-        return true;
+        if (enemy.y > me.y && me.direction === 'bottom') {
+          return true;
+        }else if(me.direction === 'top' && enemy.y < me.y) {
+          return true;
+        }else{
+          return false;
+        }
       } else {
         return false;
       }
     }
   } else if (enemy.y === me.y) {
+    console.log("enemy Y equals my Y");
     if (me.direction === 'right' && enemy.x > me.x) {
       wallsArray = walls.filter(wall => {
         return wall.y === me.y && wall.x > me.x && wall.x < enemy.x;
@@ -102,7 +113,14 @@ function inShootingSight(body){
       return false;
     } else {
       if (enemy.x - me.x < me.weaponRange) {
-        return true;
+          if (me.direction === 'right' && enemy.x > me.x) {
+              return true;
+          }else if(me.direction === 'left' && enemy.x < me.x) {
+              return true;
+          }else{
+            return false;
+          }
+
       } else {
         return false;
       }
@@ -143,7 +161,9 @@ function getCommand(body){
 
   if (inShootingSight(body)) {
     return 'shoot';
-  } else {
+  } else if(areWeInEnemyRange(body)){
+    return 'retreat';
+  }else{
     return 'advance';
   }
 
