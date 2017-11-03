@@ -241,6 +241,32 @@ function enemyRight(){
   return me.x < enemy.x;
 }
 
+function getMove(){
+  let nextX, nextY;
+  if (direction === 'right'){
+    nextX = me.x + 1;
+    nextY = me.y;
+  } else if (direction === 'left' ) {
+    nextX = me.x -1 ;
+    nextY = me.y;
+  } else if (direction ==='top'){
+    nextX = me.x;
+    nextY = me.y - 1;
+  } else {
+    nextX = me.x ;
+    nextY = me.y + 1;
+  }
+  if (nextX > 0 && nextX < body.mapWidth && nextY > 0 &&
+    nextY < body.mapHeight && walls.find(wall => (wall.x === nextX && wall.y === nextY))) {
+    return 'advance';
+  } else {
+    /* Todo: Choose a wiser path here
+        - Need to choose a smarter direction, not into walls
+     */
+    return 'rotate-right';
+  }
+}
+
 function getCommand(request) {
   body = request;
   me = body.you;
@@ -273,9 +299,8 @@ function getCommand(request) {
   } else if (enemyInRange()) {
     const move = enemyAdvancementMove();
     if (move) return move;
-  } else {
-    return 'advance';
   }
+  return getMove();
 }
 
 function getBody(req) {
