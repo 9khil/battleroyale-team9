@@ -25,12 +25,17 @@ function action (body){
 }
 
 function getBody(req){
-    switch(req.method){
-        case 'GET':
-            return info();
-        case 'POST':
-            return action(req);
+    if (req.query.path === "/command") {
+
+        return  {
+            command: 'shoot'
+        };
+
     }
+    if (req.query.path === "/info") {
+        return info();
+    }
+
 }
 
 module.exports = function (context, req) {
