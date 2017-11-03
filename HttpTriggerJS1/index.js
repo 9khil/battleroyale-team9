@@ -13,22 +13,15 @@ function doSomethingRandom(){
 
 function info(){
   return {
-    name: "Mr. Randombird",
-    team: "The best team"
+    name: "Emperor Atle",
+    team: "Sudo"
   }
 }
-
-function action (body){
-  return {
-    command: doSomethingRandom()
-  };
-}
-
 function getBody(req){
   if (req.query.path === "/command") {
 
     return  {
-      command: 'shoot'
+      command: doSomethingRandom();
     };
 
   }
