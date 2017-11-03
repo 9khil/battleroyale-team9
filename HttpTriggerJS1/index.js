@@ -17,11 +17,18 @@ function info(){
     team: "Sudo"
   }
 }
+
+function action (body){
+  return {
+    command: doSomethingRandom()
+  };
+}
+
 function getBody(req){
   if (req.query.path === "/command") {
 
     return  {
-      command: doSomethingRandom();
+      command: doSomethingRandom()
     };
 
   }
