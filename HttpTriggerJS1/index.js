@@ -129,8 +129,8 @@ function inShootingSight(body){
 
 function info() {
   return {
-    name: 'Mr. Randombird',
-    team: 'The best team'
+    name: 'Emperor Atle',
+    team: 'The copy/paste team'
   };
 }
 
@@ -145,12 +145,100 @@ function getEligablePowerup() {
 }
 
 function getNumberOfMovesToPoweup(powerup) {
-  let direction = 'left'
+  let direction = 'left';
   let nrOfMoves = 0;
+  let moves = [];
+
+  if (powerup.y > me.y) {
+    direction = 'down';
+  } else if (powerup.y < me.y) {
+    direction = 'up';
+  } else if (powerup.x > me.x) {
+    direction = 'right'
+  }
+
 }
 
 function enemyInRange() {
   return !!enemy.x;
+}
+
+function enemyAdvancementMove() {
+  if (me.direction === 'bottom' && enemyUnder()) {
+    if (enemyRight() && enemy.direction === 'left') {
+      return 'shoot';
+    } else if (enemyLeft() && enemy.direction === 'right') {
+      return 'shoot';
+    }
+  } else if(me.direction === 'top' && enemyOver()) {
+    if (enemyRight() && enemy.direction === 'left') {
+      return 'shoot';
+    } else if (enemyLeft() && enemy.direction === 'right') {
+      return 'shoot';
+    }
+  } else if(me.direction === 'left' && enemyLeft()){
+    if (enemyOver() && enemy.direction === 'bottom') {
+      return 'shoot';
+    } else if (enemyUnder() && enemy.direction === 'top') {
+      return 'shoot';
+    }
+  } else if (me.direction === 'right' && enemyRight()){
+    if (enemyOver() && enemy.direction === 'bottom') {
+      return 'shoot';
+    } else if (enemyUnder() && enemy.direction === 'top') {
+      return 'shoot';
+    }
+  } else if (enemyOver() && me.direction !== 'top') {
+    if ((enemy.direction === 'left' && enemyRight()) || (enemy.direction === 'bottom' && enemyOver())) {
+      if (me.direction === 'left') {
+        return 'rotate-right';
+      } else {
+        return 'rotate-left';
+      }
+    }
+  } else if (enemyUnder() && me.direction !== 'bottom') {
+    if ((enemy.direction === 'left' && enemyRight()) || (enemy.direction === 'right' && enemyLeft())) {
+      if (me.direction === 'left') {
+        return 'rotate-right';
+      } else {
+        return 'rotate-left';
+      }
+    }
+  } else if (enemyLeft() && me.direction !== 'left') {
+    if ((enemy.direction === 'top' && enemyUnder()) || (enemy.direction === 'bottom' && enemyOver())) {
+      if (me.direction === 'top') {
+        return 'rotate-left';
+      } else {
+        return 'rotate-right';
+      }
+    }
+  } else if (enemyRight() && me.direction !== 'right') {
+    if ((enemy.direction === 'top' && enemyUnder()) || (enemy.direction === 'bottom' && enemyOver())) {
+      if (me.direction === 'top') {
+        return 'rotate-right';
+      } else {
+        return 'rotate-left';
+      }
+    }
+  }
+
+  return null;
+}
+
+function enemyOver(){
+  return me.y > enemy.y;
+}
+
+function enemyUnder() {
+  return me.y < enemy.y;
+}
+
+function enemyLeft() {
+  return me.x > enemy.x;
+}
+
+function enemyRight(){
+  return me.x < enemy.x;
 }
 
 function getCommand(request) {
@@ -182,10 +270,12 @@ function getCommand(request) {
     return 'shoot';
   } else if(areWeInEnemyRange(body)){
     return 'retreat';
-  }else{
+  } else if (enemyInRange()) {
+    const move = enemyAdvancementMove();
+    if (move) return move;
+  } else {
     return 'advance';
   }
-
 }
 
 function getBody(req) {
