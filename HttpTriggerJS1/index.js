@@ -1,5 +1,5 @@
 const walls = [];
-let me, enemy ;
+let body, powerups, me, enemy ;
 
 function addWall(wall){
   if (walls.find((item) => {
@@ -67,7 +67,7 @@ function areWeInEnemyRange(body) {
 function inShootingSight(body){
   console.log("IsInShootingSight");
   const me = body.you;
-  const enemy = body.enemies[0];
+  const enemy = body.enemies.pop();
   let wallsArray = [];
   if (enemy.x === me.x) {
     console.log("enemy X equals my X");
@@ -135,9 +135,16 @@ function info(){
   }
 }
 
+function getEligablePowerup(){
+  powerups.sort((a, b) => {
 
-function getCommand(body){
+  })
+}
+
+function getCommand(request){
+  body = request;
   me = body.you;
+  powerups = body.bonusTiles;
   enemy = body.enemies[0];
   me.shotsPossible = me.strength / enemy.weaponDamage;
   enemy.shotsPossible = enemy.strength / me.weaponDamage;
@@ -180,10 +187,6 @@ function getBody(req){
           command: getCommand(JSON.parse(req.body))
         }
       }
-
-
-
-
 
   }
   if (req.query.path === "/info") {
