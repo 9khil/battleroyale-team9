@@ -1,22 +1,21 @@
 const walls = [];
-let body, powerups, me, enemy ;
+let body, powerups, me, enemy;
 
-function addWall(wall){
+function addWall(wall) {
   if (walls.find((item) => {
       return wall.x === item.x && wall.y === item.y;
     })) {
-   walls.push(wall);
+    walls.push(wall);
   }
 }
 
-function shouldShoot(){
+function shouldShoot() {
   if ((me.strength / enemy.weaponDamage) < (enemy.strength / me.weaponDamage)) {
     return false;
   } else {
     return true;
   }
 }
-
 
 function areWeInEnemyRange(body) {
   const me = body.you;
@@ -32,7 +31,7 @@ function areWeInEnemyRange(body) {
         return wall.x === me.x && wall.y < enemy.y && wall.y > me.y;
       });
     }
-    if (wallsArray.length){
+    if (wallsArray.length) {
       return false;
     } else {
       if (me.y - enemy.y < enemy.weaponRange) {
@@ -46,13 +45,13 @@ function areWeInEnemyRange(body) {
       wallsArray = walls.filter(wall => {
         return wall.y === me.y && wall.x > enemy.x && wall.x < me.x;
       });
-    } else if(me.direction === 'left' && enemy.x > me.x) {
+    } else if (me.direction === 'left' && enemy.x > me.x) {
       wallsArray = walls.filter(wall => {
         return wall.y === me.y && wall.x < enemy.x && wall.x > me.x;
       });
     }
 
-    if (wallsArray.length){
+    if (wallsArray.length) {
       return false;
     } else {
       if (me.x - enemy.x < enemy.weaponRange) {
@@ -103,13 +102,13 @@ function inShootingSight(body){
       wallsArray = walls.filter(wall => {
         return wall.y === me.y && wall.x > me.x && wall.x < enemy.x;
       });
-    } else if(me.direction === 'left' && enemy.x < me.x) {
+    } else if (me.direction === 'left' && enemy.x < me.x) {
       wallsArray = walls.filter(wall => {
         return wall.y === me.y && wall.x < me.x && wall.x > enemy.x;
       });
     }
 
-    if (wallsArray.length){
+    if (wallsArray.length) {
       return false;
     } else {
       if (enemy.x - me.x < me.weaponRange) {
@@ -128,20 +127,33 @@ function inShootingSight(body){
   }
 };
 
-function info(){
+function info() {
   return {
-    name: "Mr. Randombird",
-    team: "The best team"
-  }
+    name: 'Mr. Randombird',
+    team: 'The best team'
+  };
 }
 
-function getEligablePowerup(){
-  powerups.sort((a, b) => {
+function getEligablePowerup() {
+  powerups = powerups.sort((a, b) => {
+    return (Math.abs(a.x - me.x) + Math.abs(a.y - me.y)) - (Math.abs(b.x - me.x) + Math.abs(b.y - me.y));
+  });
 
-  })
+  const pu = poweups.filter(pu => {
+
+  });
 }
 
-function getCommand(request){
+function getNumberOfMovesToPoweup(powerup) {
+  let direction = 'left'
+  let nrOfMoves = 0;
+}
+
+function enemyInRange() {
+  return !!enemy.x;
+}
+
+function getCommand(request) {
   body = request;
   me = body.you;
   powerups = body.bonusTiles;
@@ -154,17 +166,17 @@ function getCommand(request){
 
   // can we see enemy?
 
-    // Can shoot enemy
-      // Should shoot?
+  // Can shoot enemy
+  // Should shoot?
 
-    // Can enemy shoot us?
-      // Can we beat enemy after movement?
+  // Can enemy shoot us?
+  // Can we beat enemy after movement?
 
   // No enemy in sight
 
-    // Check eligble powerups
+  // Check eligble powerups
 
-    // else move in current direction if no walls
+  // else move in current direction if no walls
 
   if (inShootingSight(body)) {
     return 'shoot';
@@ -176,20 +188,20 @@ function getCommand(request){
 
 }
 
-function getBody(req){
-  if (req.query.path === "/command") {
-      if(typeof req.body == "object"){
-        return {
-          command: getCommand(req.body)
-        }
-      }else{
-        return{
-          command: getCommand(JSON.parse(req.body))
-        }
-      }
+function getBody(req) {
+  if (req.query.path === '/command') {
+    if (typeof req.body == 'object') {
+      return {
+        command: getCommand(req.body)
+      };
+    } else {
+      return {
+        command: getCommand(JSON.parse(req.body))
+      };
+    }
 
   }
-  if (req.query.path === "/info") {
+  if (req.query.path === '/info') {
     return info();
   }
 }
