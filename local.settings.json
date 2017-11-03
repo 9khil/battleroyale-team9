@@ -1,6 +1,14 @@
 {
-  "IsEncrypted": false,
+  "IsEncrypted": false,   
   "Values": {
-    "AzureWebJobsStorage": ""
+    "AzureWebJobsStorage": "", 
+    "AzureWebJobsDashboard": "" 
+  },
+  "Host": {
+    "LocalHttpPort": 7071, 
+    "CORS": "*" 
+  },
+  "ConnectionStrings": {
+    "SQLConnectionString": "Value"
   }
 }
