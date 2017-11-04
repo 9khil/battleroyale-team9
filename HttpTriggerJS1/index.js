@@ -381,7 +381,7 @@ function getCommand(request) {
     return getMoveTowardsPowerup(powerup);
   }
 */
-  var random = Math.Random(0,10);
+  var random = Math.random(0,10);
   if(random){
     return "(ಠ_ಠ)┌∩┐";
   }
