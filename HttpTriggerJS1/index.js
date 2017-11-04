@@ -1,5 +1,7 @@
+const pathfindah = require('./pathfindah.js');
+
 var walls = [];
-let body, powerups, me, enemy;
+let body, powerups, me, enemy, grid;
 
 function addWall(wall) {
   if (walls.find((item) => {
@@ -134,27 +136,23 @@ function info() {
 
 function getEligablePowerup() {
   powerups = powerups.sort((a, b) => {
-    return (Math.abs(a.x - me.x) + Math.abs(a.y - me.y)) - (Math.abs(b.x - me.x) + Math.abs(b.y - me.y));
+    const pathA = getPath(a);
+    const pathB = getPath(b);
+    if (pathA.length > pathB.length) {
+      return 1 ;
+    } else if (pathA.length === pathB.length){
+      return 0;
+    }
+    return -1;
+    //return (Math.abs(a.x - me.x) + Math.abs(a.y - me.y)) - (Math.abs(b.x - me.x) + Math.abs(b.y - me.y));
   });
 
-  const pu = poweups.filter(pu => {
-
-  });
+  return powerups.length ? powerups[0] : null;
 }
 
-function getNumberOfMovesToPoweup(powerup) {
-  let direction = 'left';
-  let nrOfMoves = 0;
-  let moves = [];
-
-  if (powerup.y > me.y) {
-    direction = 'down';
-  } else if (powerup.y < me.y) {
-    direction = 'up';
-  } else if (powerup.x > me.x) {
-    direction = 'right'
-  }
-
+function getMoveTowardsPowerup(powerup) {
+  const path = getPath(powerup);
+  return path[0];
 }
 
 function enemyInRange() {
@@ -330,6 +328,12 @@ function getMove(){
   }
 }
 
+// Finner korteste vei til "destination" - unngår vegger.
+function getPath(destination) {
+  grid = pathfindah.createGrid(body, walls, destination);
+  return pathfindah.findShortestPath(me, grid);
+}
+
 function getCommand(request) {
   body = request;
   me = body.you;
@@ -340,6 +344,8 @@ function getCommand(request) {
   walls = body.walls;
 
   walls.map(addWall);
+
+
 
   // can we see enemy?
 
@@ -369,6 +375,11 @@ function getCommand(request) {
 
   }
 
+  let powerup = getEligablePowerup();
+  if (powerup) {
+    console.log('moving towards powerup at', powerup);
+    return getMoveTowardsPowerup(powerup);
+  }
   console.log("not in range. random move");
 
   return getMove();

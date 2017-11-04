@@ -1,6 +1,6 @@
 function findShortestPath(startCoordinates, grid) {
-  let y = startCoordinates[0];
-  let x = startCoordinates[1];
+  let y = startCoordinates.y;
+  let x = startCoordinates.x;
 
   let location = {
     y: y,
@@ -132,5 +132,5 @@ function createGrid(body, walls, destination) {
 
 module.exports = {
   createGrid: createGrid,
-  findShortestPath: findShortestPath()
+  findShortestPath: findShortestPath
 };
