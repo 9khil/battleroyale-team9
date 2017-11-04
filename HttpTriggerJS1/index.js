@@ -323,9 +323,6 @@ function getMove(){
     nextY = me.y + 1;
   }
 
-  console.log(walls);
-  console.log(walls.filter(wall => (wall.x === nextX && wall.y === nextY)));
-
   if (nextX > 0 && nextX < body.mapWidth && nextY > 0 &&
     nextY < body.mapHeight && !walls.find(wall => (wall.x === nextX && wall.y === nextY))) {
     return 'advance';
@@ -391,7 +388,7 @@ function getCommand(request) {
   }
 
   var random = Math.random(0,10);
-  if(random < 3){
+  if(random){
     return "(ಠ_ಠ)┌∩┐";
   }
 
