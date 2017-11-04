@@ -374,18 +374,18 @@ function getCommand(request) {
     if (move) return move;
 
   }
-
+/*
   let powerup = getEligablePowerup();
   if (powerup) {
     console.log('moving towards powerup at', powerup);
     return getMoveTowardsPowerup(powerup);
   }
-
+*/
   var random = Math.Random(0,10);
   if(random){
     return "(ಠ_ಠ)┌∩┐";
   }
-  
+
   console.log("not in range. random move");
 
   return getMove();
