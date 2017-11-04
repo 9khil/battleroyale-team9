@@ -205,8 +205,6 @@ function enemyAdvancementMove() {
       } else {
         return 'rotate-right';
       }*/
-    }
-
 
   } else if (enemyUnder() && me.direction !== 'bottom') {
     //if ((enemy.direction === 'left' && enemyRight()) || (enemy.direction === 'right' && enemyLeft())) {
