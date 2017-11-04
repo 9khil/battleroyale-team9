@@ -156,10 +156,19 @@ function getMoveTowardsPowerup(powerup) {
   if (move === me.direction) {
     return 'advance';
   } else {
-    if ((me.direction === 'top' || me.direction === 'bottom') && move === 'left') return 'rotate-left';
-    if ((me.direction === 'top' || me.direction === 'bottom') && move === 'right') return 'rotate-right';
-    if ((me.direction === 'left' || me.direction === 'right') && move === 'up') return 'rotate-right';
-    if ((me.direction === 'left' || me.direction === 'right') && move === 'bottom') return 'rotate-left';
+
+    if (me.direction === 'top' && move === 'left') return 'rotate-left';
+    if (me.direction === 'bottom' && move === 'left') return 'rotate-right';
+
+    if (me.direction === 'top' && move === 'right') return 'rotate-right';
+    if (me.direction === 'bottom' && move === 'right') return 'rotate-left';
+
+    if (me.direction === 'left' && move === 'up') return 'rotate-right';
+    if (me.direction === 'right' && move === 'up') return 'rotate-left';
+
+    if (me.direction === 'left' && move === 'bottom') return 'rotate-left';
+    if (me.direction === 'right'&& move === 'bottom') return 'rotate-right';
+
     return 'rotate-left';
   }
 }
