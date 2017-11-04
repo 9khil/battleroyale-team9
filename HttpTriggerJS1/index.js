@@ -129,7 +129,7 @@ function enemyInOurShootingSight(body){
 
 function info() {
   return {
-    name: 'Emperor Atle',
+    name: 'Emperor Atle (ಠ_ಠ)┌∩┐',
     team: 'The copy/paste team'
   };
 }
