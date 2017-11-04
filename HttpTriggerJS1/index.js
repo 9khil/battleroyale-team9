@@ -136,15 +136,15 @@ function info() {
 
 function getEligablePowerup() {
   powerups = powerups.sort((a, b) => {
-    const pathA = getPath(a);
-    const pathB = getPath(b);
-    if (pathA.length > pathB.length) {
-      return 1 ;
-    } else if (pathA.length === pathB.length){
-      return 0;
-    }
-    return -1;
-    //return (Math.abs(a.x - me.x) + Math.abs(a.y - me.y)) - (Math.abs(b.x - me.x) + Math.abs(b.y - me.y));
+    // const pathA = getPath(a);
+    // const pathB = getPath(b);
+    // if (pathA.length > pathB.length) {
+    //   return 1 ;
+    // } else if (pathA.length === pathB.length){
+    //   return 0;
+    // }
+    // return -1;
+    return (Math.abs(a.x - me.x) + Math.abs(a.y - me.y)) - (Math.abs(b.x - me.x) + Math.abs(b.y - me.y));
   });
 
   return powerups.length ? powerups[0] : null;
@@ -152,7 +152,16 @@ function getEligablePowerup() {
 
 function getMoveTowardsPowerup(powerup) {
   const path = getPath(powerup);
-  return path[0];
+  const move = path[0];
+  if (move === me.direction) {
+    return 'advance';
+  } else {
+    if ((me.direction === 'top' || me.direction === 'bottom') && move === 'left') return 'rotate-left';
+    if ((me.direction === 'top' || me.direction === 'bottom') && move === 'right') return 'rotate-right';
+    if ((me.direction === 'left' || me.direction === 'right') && move === 'up') return 'rotate-right';
+    if ((me.direction === 'left' || me.direction === 'right') && move === 'bottom') return 'rotate-left';
+    return 'rotate-left';
+  }
 }
 
 function enemyInRange() {
