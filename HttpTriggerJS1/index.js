@@ -258,15 +258,36 @@ function getRetreatMove(){
     nextX = me.x ;
     nextY = me.y - 1;
   }
-
-  if (nextX > 0 && nextX < body.mapWidth && nextY > 0 &&
+  let tempBody = body;
+  tempBody.me.x = nextX;
+  tempBody.me.y = nextY;
+  if (!areWeInEnemyShootingSight(tempBody) && nextX > 0 && nextX < body.mapWidth && nextY > 0 &&
     nextY < body.mapHeight && !walls.find(wall => (wall.x === nextX && wall.y === nextY))) {
-    return 'retreat';
-  } else {
-    /* Todo: Choose a wiser path here
-        - Need to choose a smarter direction, not into walls
-     */
-    return 'rotate-right';
+      return 'retreat';
+  } else if(me.direction === 'bottom') {
+    if(!walls.find(wall => (wall.x === me.x + 1 && wall.y === me.y))){
+      return 'rotate-right';
+    } else if (!walls.find(wall => (wall.x === me.x - 1 && wall.y === me.y))) {
+      return 'rotate-left';
+    }
+  } else if (me.direction === 'top') {
+    if(!walls.find(wall => (wall.x === me.x + 1 && wall.y === me.y))){
+        return 'rotate-left';
+    } else if (!walls.find(wall => (wall.x === me.x - 1 && wall.y === me.y))){
+      return 'rotate-right';
+    }
+  } else if (me.direction === 'left') {
+    if(!walls.find(wall => (wall.x === me.x && wall.y === me.y + 1))){
+      return 'rotate-right';
+    } else if (!walls.find(wall => (wall.x === me.x && wall.y === me.y - 1))) {
+      return 'rotate-left';
+    }
+  } else if (me.direction === 'right') {
+    if(!walls.find(wall => (wall.x === me.x && wall.y === me.y + 1))) {
+      return 'rotate-left';
+    } else if (!walls.find(wall => (wall.x === me.x && wall.y === me.y - 1))) {
+      return 'rotate-right';
+    }
   }
 }
 
