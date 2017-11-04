@@ -383,15 +383,15 @@ function getCommand(request) {
     if (move) return move;
 
   }
-/*
+
   let powerup = getEligablePowerup();
   if (powerup) {
     console.log('moving towards powerup at', powerup);
     return getMoveTowardsPowerup(powerup);
   }
-*/
+
   var random = Math.random(0,10);
-  if(random){
+  if(random < 4){
     return "(ಠ_ಠ)┌∩┐";
   }
 
