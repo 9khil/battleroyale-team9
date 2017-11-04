@@ -331,7 +331,7 @@ function getCommand(request) {
       return 'shoot';
     } else if (enemyInOurShootingSight(body) && areWeInEnemyShootingSight(body) && shouldShoot()) {
       return 'shoot';
-    } else if(areWeInEnemyShootingSight(body)){ //TODO dont retreat into a wall
+    } else if(areWeInEnemyShootingSight(body)){
       return getRetreatMove();
     }
     const move = enemyAdvancementMove();
