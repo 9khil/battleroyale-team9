@@ -1,4 +1,4 @@
-const walls = [];
+var walls = [];
 let body, powerups, me, enemy;
 
 function addWall(wall) {
@@ -273,6 +273,10 @@ function getMove(){
     nextX = me.x ;
     nextY = me.y + 1;
   }
+
+  console.log(walls);
+  console.log(walls.filter(wall => (wall.x === nextX && wall.y === nextY)));
+
   if (nextX > 0 && nextX < body.mapWidth && nextY > 0 &&
     nextY < body.mapHeight && !walls.find(wall => (wall.x === nextX && wall.y === nextY))) {
     return 'advance';
@@ -291,7 +295,7 @@ function getCommand(request) {
   enemy = body.enemies[0];
   me.shotsPossible = me.strength / enemy.weaponDamage;
   enemy.shotsPossible = enemy.strength / me.weaponDamage;
-  const walls = body.walls;
+  walls = body.walls;
 
   walls.map(addWall);
 
