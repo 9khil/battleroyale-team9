@@ -17,7 +17,7 @@ function shouldShoot() {
   }
 }
 
-function areWeInEnemyRange(body) {
+function areWeInEnemyShootingSight(body) {
   const me = body.you;
   const enemy = body.enemies[0];
 
@@ -27,11 +27,11 @@ function areWeInEnemyRange(body) {
 
   let wallsArray = [];
   if (enemy.x === me.x) {
-    if (enemy.y < me.y && enemy.direction === 'bottom') {
+    if (enemyOver() && enemy.direction === 'bottom') {
       wallsArray = walls.filter(wall => {
         return wall.x === me.x && wall.y < me.y && wall.y > enemy.y;
       });
-    } else if (me.direction === 'top' && enemy.y > me.y) {
+    } else if (enemy.direction === 'top' && enemyUnder()) {
       wallsArray = walls.filter(wall => {
         return wall.x === me.x && wall.y < enemy.y && wall.y > me.y;
       });
@@ -39,18 +39,18 @@ function areWeInEnemyRange(body) {
     if (wallsArray.length) {
       return false;
     } else {
-      if (me.y - enemy.y < enemy.weaponRange) { //TODO hvis han også ser på oss
+      if (me.y - enemy.y < enemy.weaponRange && ((enemyOver() && enemy.direction === 'bottom') || (enemy.direction === 'top' && enemyUnder()))) {
         return true;
       } else {
         return false;
       }
     }
   } else if (enemy.y === me.y) {
-    if (me.direction === 'right' && me.x > enemy.x) {
+    if (enemy.direction === 'right' && enemyLeft()) {
       wallsArray = walls.filter(wall => {
         return wall.y === me.y && wall.x > enemy.x && wall.x < me.x;
       });
-    } else if (me.direction === 'left' && enemy.x > me.x) {
+    } else if (enemy.direction === 'left' && enemyRight()) {
       wallsArray = walls.filter(wall => {
         return wall.y === me.y && wall.x < enemy.x && wall.x > me.x;
       });
@@ -59,7 +59,7 @@ function areWeInEnemyRange(body) {
     if (wallsArray.length) {
       return false;
     } else {
-      if (me.x - enemy.x < enemy.weaponRange) { //TODO hvis han også ser på oss
+      if (me.x - enemy.x < enemy.weaponRange && ((enemy.direction === 'right' && enemyLeft()) || (enemy.direction === 'left' && enemyRight()))) {
         return true;
       } else {
         return false;
@@ -68,7 +68,7 @@ function areWeInEnemyRange(body) {
   }
 }
 
-function inShootingSight(body){
+function enemyInOurShootingSight(body){
   console.log("IsInShootingSight");
   const me = body.you;
   const enemy = body.enemies[0];
@@ -80,11 +80,11 @@ function inShootingSight(body){
   let wallsArray = [];
   if (enemy.x === me.x) {
     console.log("enemy X equals my X");
-    if (enemy.y > me.y && me.direction === 'bottom') {
+    if (enemyUnder() && me.direction === 'bottom') {
       wallsArray = walls.filter(wall => {
         return wall.x === me.x && wall.y > me.y && wall.y < enemy.y;
       });
-    } else if (me.direction === 'top' && enemy.y < me.y) {
+    } else if (me.direction === 'top' && enemyOver()) {
       wallsArray = walls.filter(wall => {
         return wall.x === me.x && wall.y < me.y && wall.y > enemy.y;
       });
@@ -94,25 +94,19 @@ function inShootingSight(body){
       return false;
     } else {
       console.log("no walls in between");
-      if (enemy.y - me.y < me.weaponRange) {
-        if (enemy.y > me.y && me.direction === 'bottom') {
-          return true;
-        }else if(me.direction === 'top' && enemy.y < me.y) {
-          return true;
-        }else{
-          return false;
-        }
+      if (enemy.y - me.y < me.weaponRange && ((enemyUnder() && me.direction === 'bottom') || (me.direction === 'top' && enemyOver()))) {
+        return true;
       } else {
         return false;
       }
     }
   } else if (enemy.y === me.y) {
     console.log("enemy Y equals my Y");
-    if (me.direction === 'right' && enemy.x > me.x) {
+    if (me.direction === 'right' && enemyRight()) {
       wallsArray = walls.filter(wall => {
         return wall.y === me.y && wall.x > me.x && wall.x < enemy.x;
       });
-    } else if (me.direction === 'left' && enemy.x < me.x) {
+    } else if (me.direction === 'left' && enemyLeft()) {
       wallsArray = walls.filter(wall => {
         return wall.y === me.y && wall.x < me.x && wall.x > enemy.x;
       });
@@ -121,23 +115,14 @@ function inShootingSight(body){
     if (wallsArray.length) {
       return false;
     } else {
-      if (enemy.x - me.x < me.weaponRange) {
-          if (me.direction === 'right' && enemy.x > me.x) {
-              return true;
-          }else if(me.direction === 'left' && enemy.x < me.x) {
-              return true;
-          }else{
-            return false;
-          }
-
+      if (enemy.x - me.x < me.weaponRange && ((me.direction === 'right' && enemyRight()) || (me.direction === 'left' && enemyLeft()))) {
+        return true;
       } else {
         return false;
       }
     }
   }
-
   return false;
-
 };
 
 function info() {
@@ -315,9 +300,9 @@ function getCommand(request) {
 
   if(enemyInRange()){
     console.log("enemy is in range");
-    if (inShootingSight(body)) {
+    if (enemyInOurShootingSight(body)) {
       return 'shoot';
-    } else if(areWeInEnemyRange(body)){ //TODO areWeInEnemyShootingSight!!
+    } else if(areWeInEnemyShootingSight(body)){ //TODO areWeInEnemyShootingSight!!
       return 'retreat';
     }
     const move = enemyAdvancementMove();
