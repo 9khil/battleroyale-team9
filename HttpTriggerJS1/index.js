@@ -191,37 +191,47 @@ function enemyAdvancementMove() {
   }
 
   if (enemyOver() && me.direction !== 'top') {
-    if ((enemy.direction === 'left' && enemyRight()) || (enemy.direction === 'bottom' && enemyOver())) {
+
+    if(me.direction === 'left'){
+      return 'rotate-right';
+    }
+    else{
+      return 'rotate-left';
+    }
+
+    /*if ((enemy.direction === 'left' && enemyRight()) || (enemy.direction === 'bottom' && enemyOver())) {
       if (me.direction === 'left') {
         return 'rotate-left';
       } else {
         return 'rotate-right';
-      }
+      }*/
     }
+
+
   } else if (enemyUnder() && me.direction !== 'bottom') {
-    if ((enemy.direction === 'left' && enemyRight()) || (enemy.direction === 'right' && enemyLeft())) {
+    //if ((enemy.direction === 'left' && enemyRight()) || (enemy.direction === 'right' && enemyLeft())) {
       if (me.direction === 'left') {
         return 'rotate-left';
       } else {
         return 'rotate-right';
       }
-    }
+    //}
   } else if (enemyLeft() && me.direction !== 'left') {
-    if ((enemy.direction === 'top' && enemyUnder()) || (enemy.direction === 'bottom' && enemyOver())) {
+  //  if ((enemy.direction === 'top' && enemyUnder()) || (enemy.direction === 'bottom' && enemyOver())) {
       if (me.direction === 'top') {
         return 'rotate-left';
       } else {
         return 'rotate-right';
       }
-    }
+  //  }
   } else if (enemyRight() && me.direction !== 'right') {
-    if ((enemy.direction === 'top' && enemyUnder()) || (enemy.direction === 'bottom' && enemyOver())) {
+  //  if ((enemy.direction === 'top' && enemyUnder()) || (enemy.direction === 'bottom' && enemyOver())) {
       if (me.direction === 'top') {
         return 'rotate-right';
       } else {
         return 'rotate-left';
       }
-    }
+  //  }
   }
 
   return null;
