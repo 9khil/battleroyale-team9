@@ -327,7 +327,7 @@ function getCommand(request) {
 
   if(enemyInRange()){
     console.log("enemy is in range");
-    if (enemyInOurShootingSight(body)) {
+    if (enemyInOurShootingSight(body) && !areWeInEnemyShootingSight(body)) {
       return 'shoot';
     } else if (enemyInOurShootingSight(body) && areWeInEnemyShootingSight(body) && shouldShoot()) {
       return 'shoot';
