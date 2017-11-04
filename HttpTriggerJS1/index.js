@@ -10,7 +10,7 @@ function addWall(wall) {
 }
 
 function shouldShoot() {
-  if ((me.strength / enemy.weaponDamage) < (enemy.strength / me.weaponDamage)) {
+  if (me.shotsPossible < enemy.shotsPossible) {
     return false;
   } else {
     return true;
@@ -18,8 +18,8 @@ function shouldShoot() {
 }
 
 function areWeInEnemyShootingSight(body) {
-  const me = body.you;
-  const enemy = body.enemies[0];
+  const me = body.you; // fjerne?
+  const enemy = body.enemies[0]; // fjerne?
 
   if(typeof enemy === "undefined"){
     return false;
@@ -70,8 +70,8 @@ function areWeInEnemyShootingSight(body) {
 
 function enemyInOurShootingSight(body){
   console.log("IsInShootingSight");
-  const me = body.you;
-  const enemy = body.enemies[0];
+  const me = body.you; // fjerne?
+  const enemy = body.enemies[0]; // fjerne?
 
   if(typeof enemy === "undefined"){
     return false;
@@ -302,7 +302,9 @@ function getCommand(request) {
     console.log("enemy is in range");
     if (enemyInOurShootingSight(body)) {
       return 'shoot';
-    } else if(areWeInEnemyShootingSight(body)){ //TODO areWeInEnemyShootingSight!!
+    } else if (enemyInOurShootingSight(body) && areWeInEnemyShootingSight(body) && shouldShoot()) {
+      return 'shoot';
+    } else if(areWeInEnemyShootingSight(body)){ //TODO dont retreat into a wall
       return 'retreat';
     }
     const move = enemyAdvancementMove();
