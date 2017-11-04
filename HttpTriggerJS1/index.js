@@ -251,7 +251,7 @@ function enemyRight(){
   return me.x < enemy.x;
 }
 
-function getRetreatMove(){
+function getRetreatMove(body){
   let nextX, nextY;
   if (me.direction === 'right'){
     nextX = me.x - 1;
@@ -267,8 +267,9 @@ function getRetreatMove(){
     nextY = me.y - 1;
   }
   let tempBody = body;
-  tempBody.me.x = nextX;
-  tempBody.me.y = nextY;
+  
+  tempBody.you.x = nextX;
+  tempBody.you.y = nextY;
   if (!areWeInEnemyShootingSight(tempBody) && nextX > 0 && nextX < body.mapWidth && nextY > 0 &&
     nextY < body.mapHeight && !walls.find(wall => (wall.x === nextX && wall.y === nextY))) {
       return 'retreat';
@@ -361,7 +362,7 @@ function getCommand(request) {
     } else if (enemyInOurShootingSight(body) && areWeInEnemyShootingSight(body) && shouldShoot()) {
       return 'shoot';
     } else if(areWeInEnemyShootingSight(body)){
-      return getRetreatMove();
+      return getRetreatMove(body);
     }
     const move = enemyAdvancementMove();
     if (move) return move;
