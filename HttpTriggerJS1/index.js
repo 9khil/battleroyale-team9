@@ -169,7 +169,7 @@ function getMoveTowardsPowerup(powerup) {
     if (me.direction === 'left' && move === 'bottom') return 'rotate-left';
     if (me.direction === 'right'&& move === 'bottom') return 'rotate-right';
 
-    return 'retreat';
+    return 'rotate-left';
   }
 }
 
