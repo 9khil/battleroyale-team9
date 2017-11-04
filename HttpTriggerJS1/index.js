@@ -397,7 +397,7 @@ function getCommand(request) {
   }
 
   var random = Math.random(0,10);
-  if(random){
+  if(random < 3){
     return "(ಠ_ಠ)┌∩┐";
   }
 
