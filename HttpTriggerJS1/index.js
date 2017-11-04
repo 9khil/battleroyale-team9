@@ -39,7 +39,7 @@ function areWeInEnemyRange(body) {
     if (wallsArray.length) {
       return false;
     } else {
-      if (me.y - enemy.y < enemy.weaponRange) {
+      if (me.y - enemy.y < enemy.weaponRange) { //TODO hvis han også ser på oss
         return true;
       } else {
         return false;
@@ -59,7 +59,7 @@ function areWeInEnemyRange(body) {
     if (wallsArray.length) {
       return false;
     } else {
-      if (me.x - enemy.x < enemy.weaponRange) {
+      if (me.x - enemy.x < enemy.weaponRange) { //TODO hvis han også ser på oss
         return true;
       } else {
         return false;
@@ -317,7 +317,7 @@ function getCommand(request) {
     console.log("enemy is in range");
     if (inShootingSight(body)) {
       return 'shoot';
-    } else if(areWeInEnemyRange(body)){
+    } else if(areWeInEnemyRange(body)){ //TODO areWeInEnemyShootingSight!!
       return 'retreat';
     }
     const move = enemyAdvancementMove();
