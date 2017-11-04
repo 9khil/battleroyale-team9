@@ -265,7 +265,7 @@ function getRetreatMove(body){
     nextY = me.y - 1;
   }
   let tempBody = body;
-  
+
   tempBody.you.x = nextX;
   tempBody.you.y = nextY;
   if (!areWeInEnemyShootingSight(tempBody) && nextX > 0 && nextX < body.mapWidth && nextY > 0 &&
@@ -380,6 +380,12 @@ function getCommand(request) {
     console.log('moving towards powerup at', powerup);
     return getMoveTowardsPowerup(powerup);
   }
+
+  var random = Math.Random(0,10);
+  if(random){
+    return "(ಠ_ಠ)┌∩┐";
+  }
+  
   console.log("not in range. random move");
 
   return getMove();
